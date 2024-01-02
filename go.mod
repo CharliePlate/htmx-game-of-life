@@ -1,4 +1,4 @@
-module githib.com/charlieplate/htmx_todo
+module github.com/CharliePlate/htmx-game-of-life
 
 go 1.21.5
 
