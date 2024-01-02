@@ -1,0 +1,17 @@
+package components
+
+import "githib.com/charlieplate/htmx_todo/shared/board"
+import "fmt"
+
+templ Board(board board.Board) {
+	<div id="board">
+		<input id="board-size" name="board-size" type="hidden" value={ fmt.Sprintf("%dx%d", board.Width, board.Height) }/>
+		for _, row := range board.Cells {
+			<div class="flex">
+				for _, cell := range row {
+					@Cell(cell.X(), cell.Y(), cell.Alive)
+				}
+			</div>
+		}
+	</div>
+}

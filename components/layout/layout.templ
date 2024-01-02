@@ -1,0 +1,49 @@
+package layout 
+
+type LayoutProps struct {
+	Title         string
+	ExcludeHeader bool
+	ExcludeFooter bool
+}
+
+const _DEFAULT_TITLE = "Default Title"
+
+func DefaultProps() LayoutProps {
+	return LayoutProps{
+		Title:         "",
+		ExcludeHeader: false,
+		ExcludeFooter: true,
+	}
+}
+
+templ Head(title string) {
+	<head>
+		<title>
+			if title == "" {
+				{ _DEFAULT_TITLE }
+			} else {
+				title
+			}
+		</title>
+		<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+		<script src="/static/js/index.js"></script>
+		<link rel="stylesheet" href="/static/css/styles.css"/>
+		<meta name="htmx-config" content={ `{"useTemplateFragments":true}` }/>
+	</head>
+}
+
+templ Footer() {
+	<footer>
+		<p>Footer</p>
+	</footer>
+}
+
+templ Layout(props LayoutProps) {
+	if !props.ExcludeHeader {
+		@Head(props.Title)
+	}
+	{ children... }
+	if !props.ExcludeFooter {
+		@Footer()
+	}
+}

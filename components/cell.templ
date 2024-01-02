@@ -1,0 +1,33 @@
+package components
+
+import "fmt"
+import "githib.com/charlieplate/htmx_todo/shared/tailwind"
+
+func class(alive bool) string {
+	return tw.Merge(
+		tw.NewString("cell-item border-black border-2 rounded w-8 h-8"),
+		tw.NewObject(map[string]bool{
+			"bg-black":   alive,
+			"bg-white":   !alive,
+			"text-black": alive,
+			"text-white": !alive,
+		}),
+	)
+}
+
+templ Cell(x int, y int, alive bool) {
+	<div
+		class={ class(alive) }
+		hx-trigger="mouseenter[checkMouseState()], mousedown"
+		hx-post="/cell"
+		hx-swap="outerHTML"
+		hx-include="this"
+	>
+		<input
+			id={ fmt.Sprintf("cell-%d-%d", x, y) }
+			hidden
+			name={ fmt.Sprintf("cell-%d-%d", x, y) }
+			value={ fmt.Sprintf(`{"alive": %t, "cords": [%d, %d]}`, alive, x, y) }
+		/>
+	</div>
+}

@@ -1,0 +1,31 @@
+package components
+
+import "githib.com/charlieplate/htmx_todo/components/layout"
+import "githib.com/charlieplate/htmx_todo/shared/board"
+
+func startingBoard() board.Board {
+	board := board.Board{
+		Width:  30,
+		Height: 30,
+	}
+	board.MakeStartingBoard()
+	return board
+}
+
+templ Index() {
+	@layout.Layout(layout.DefaultProps()) {
+		<div class="flex justify-center flex-col">
+			<button
+				hx-target="#board"
+				hx-swap="outerHTML"
+				hx-post="/board"
+				type="button"
+				class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+				hx-include=".cell-item, #board-size"
+			>
+				Click to Refresh
+			</button>
+			@Board(startingBoard())
+		</div>
+	}
+}
